@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="librolog-api-base" content="">
+    <meta name="description" content="LibroLog: biblioteca personal, reseñas, metas y estadísticas de lectura." data-i18n-content="meta.index">
+    <title>LibroLog · Tu biblioteca de lectura</title>
+    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/theme.css">
+</head>
+<body data-page="index" data-auth="optional">
+    <a class="skip-link" href="#contenido" data-i18n="a11y.skip">Saltar al contenido</a>
+    <header id="site-header"></header>
+
+    <main id="contenido" tabindex="-1">
+        <div class="container">
+            <section class="hero-section" aria-labelledby="hero-title">
+                <div class="hero-copy">
+                    <p class="eyebrow" data-i18n="index.eyebrow">Proyecto académico</p>
+                    <h1 id="hero-title" data-i18n="index.title">Tus libros, tus metas y tu ritmo de lectura en un solo lugar.</h1>
+                    <p class="lead" data-i18n="index.lead">LibroLog registra lo que lees, calcula tu avance y te ayuda a cumplir objetivos anuales y mensuales con estadísticas claras y un informe en PDF.</p>
+
+                    <div class="hero-actions" id="hero-public-actions">
+                        <a class="btn btn-primary btn-lg" href="/register.html" data-i18n="index.ctaStart">Crear cuenta gratis</a>
+                        <a class="btn btn-outline-primary btn-lg" href="/login.html" data-i18n="index.ctaLogin">Ya tengo cuenta</a>
+                    </div>
+
+                    <div id="hero-session" hidden>
+                        <p class="hero-session" id="index-session-text"></p>
+                        <a class="btn btn-primary btn-lg" href="/dashboard.html" data-i18n="index.ctaDashboard">Ir a mi panel</a>
+                    </div>
+                </div>
+
+                <div class="hero-art">
+                    <img src="/assets/hero.svg" alt="" width="520" height="420">
+                </div>
+            </section>
+
+            <section aria-labelledby="features-title" class="pb-4">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow" data-i18n="index.eyebrow">Proyecto académico</p>
+                        <h2 id="features-title" data-i18n="index.featuresTitle">Todo lo necesario para leer con orden</h2>
+                    </div>
+                    <p data-i18n="index.featuresLead">Una aplicación web completa, sin instalar nada y con tus datos protegidos.</p>
+                </div>
+
+                <div class="feature-grid">
+                    <article class="feature-card">
+                        <span class="feature-icon" aria-hidden="true">▤</span>
+                        <h3 data-i18n="index.feature.library.title">Biblioteca personal</h3>
+                        <p data-i18n="index.feature.library.text">Organiza tus libros por estado, actualiza la página actual y conserva las fechas de inicio y fin.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-icon" aria-hidden="true">⌕</span>
+                        <h3 data-i18n="index.feature.catalog.title">Catálogo conectado</h3>
+                        <p data-i18n="index.feature.catalog.text">Busca por título, autoría o ISBN en Open Library y guarda los resultados en la caché local.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-icon" aria-hidden="true">★</span>
+                        <h3 data-i18n="index.feature.reviews.title">Reseñas estructuradas</h3>
+                        <p data-i18n="index.feature.reviews.text">Valora la impresión general, el ritmo, los personajes y la utilidad de cada lectura.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-icon" aria-hidden="true">◎</span>
+                        <h3 data-i18n="index.feature.goals.title">Metas con ritmo real</h3>
+                        <p data-i18n="index.feature.goals.text">Define objetivos anuales o mensuales y descubre cuántos libros y páginas necesitas por día.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-icon" aria-hidden="true">↗</span>
+                        <h3 data-i18n="index.feature.analytics.title">Estadísticas e informe</h3>
+                        <p data-i18n="index.feature.analytics.text">Consulta tu actividad mensual, tus autorías favoritas y descarga un informe PDF en español o inglés.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-icon" aria-hidden="true">⇅</span>
+                        <h3 data-i18n="index.feature.data.title">Importar y exportar</h3>
+                        <p data-i18n="index.feature.data.text">Lleva tu biblioteca desde Goodreads o guarda una copia completa en CSV o JSON.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section aria-labelledby="how-title" class="py-4">
+                <div class="section-heading">
+                    <h2 id="how-title" data-i18n="index.howTitle">Cómo funciona</h2>
+                </div>
+                <div class="step-grid">
+                    <article class="step-card">
+                        <h3 data-i18n="index.how.step1.title">Crea tu cuenta</h3>
+                        <p data-i18n="index.how.step1.text">Regístrate con usuario, correo y una contraseña segura. La sesión se protege con tokens y cookies HttpOnly.</p>
+                    </article>
+                    <article class="step-card">
+                        <h3 data-i18n="index.how.step2.title">Añade tus libros</h3>
+                        <p data-i18n="index.how.step2.text">Busca en el catálogo o da de alta un libro manualmente. Actualiza tu progreso cuando quieras.</p>
+                    </article>
+                    <article class="step-card">
+                        <h3 data-i18n="index.how.step3.title">Mide y mejora</h3>
+                        <p data-i18n="index.how.step3.text">Revisa tus estadísticas, ajusta tus metas y descarga tu informe para conservar el recorrido.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section aria-labelledby="status-title" class="py-4">
+                <div class="panel">
+                    <div class="section-heading">
+                        <div>
+                            <h2 id="status-title" data-i18n="index.statusTitle">Estado del servicio</h2>
+                            <p data-i18n="index.statusLead">Comprobación en vivo del endpoint público /api/public/info.</p>
+                        </div>
+                        <a class="btn btn-sm btn-outline-primary" href="/swagger-ui.html" target="_blank" rel="noopener noreferrer" data-i18n="index.statusDocs">Abrir Swagger UI</a>
+                    </div>
+                    <div class="status-card">
+                        <span class="status-indicator">
+                            <span class="status-dot" id="status-dot" aria-hidden="true"></span>
+                            <span id="status-text" data-i18n="common.loading">Cargando…</span>
+                        </span>
+                        <span id="status-version" class="text-muted"></span>
+                    </div>
+                </div>
+            </section>
+
+            <section aria-labelledby="privacy-title" class="pb-5">
+                <div class="grid-two">
+                    <div class="panel">
+                        <h2 id="privacy-title" data-i18n="index.privacyTitle">Privacidad y accesibilidad</h2>
+                        <p data-i18n="index.privacyText">Cada persona solo puede ver y modificar su propia biblioteca. La interfaz funciona con teclado, respeta el movimiento reducido y usa contraste suficiente.</p>
+                    </div>
+                    <div class="panel panel-flat">
+                        <h2 data-i18n="index.howTitle">Cómo funciona</h2>
+                        <p class="mb-0" data-i18n="index.footerNote">Aplicación web de una sola página por pantalla: sin SPA, sin instalar y con enlaces reales.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <div id="toast-stack" class="toast-stack" aria-live="polite" aria-atomic="false"></div>
+
+    <noscript>
+        <div class="container py-4">
+            <div class="alert alert-warning">LibroLog necesita JavaScript para funcionar. / LibroLog needs JavaScript to work.</div>
+        </div>
+    </noscript>
+
+    <script type="module" src="/js/pages/index.js"></script>
+</body>
+</html>

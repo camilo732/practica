@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="librolog-api-base" content="">
+    <meta name="description" content="Tu perfil y tu sesión en LibroLog." data-i18n-content="meta.profile">
+    <title>Perfil · LibroLog</title>
+    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/theme.css">
+</head>
+<body data-page="profile" data-auth="required">
+    <a class="skip-link" href="#contenido" data-i18n="a11y.skip">Saltar al contenido</a>
+    <header id="site-header"></header>
+
+    <main id="contenido" tabindex="-1">
+        <div class="container">
+            <header class="page-intro">
+                <p class="eyebrow" data-i18n="profile.eyebrow">Cuenta</p>
+                <h1 data-i18n="profile.title">Mi perfil</h1>
+                <p class="lead" data-i18n="profile.subtitle">Datos de tu cuenta y estado de la sesión.</p>
+            </header>
+
+            <div id="profile-alert" class="alert alert-danger" role="alert" hidden></div>
+
+            <div id="profile-loading" class="loading-block" aria-busy="true" aria-label="Cargando contenido">
+                <div class="skeleton loading-line w-35"></div>
+                <div class="skeleton loading-line w-75"></div>
+                <div class="skeleton loading-line w-50"></div>
+            </div>
+
+            <div id="profile-content" class="profile-grid" hidden>
+                <section class="profile-card" aria-labelledby="account-title">
+                    <div class="profile-head">
+                        <div class="profile-avatar" id="profile-avatar" aria-hidden="true"></div>
+                        <div>
+                            <h2 id="account-title" data-i18n="profile.account">Cuenta</h2>
+                            <p id="profile-display-name"></p>
+                        </div>
+                    </div>
+                    <dl class="profile-rows" id="profile-rows"></dl>
+                </section>
+
+                <div class="stack">
+                    <section class="profile-card" aria-labelledby="session-title">
+                        <h2 id="session-title" data-i18n="profile.session">Sesión y seguridad</h2>
+                        <p data-i18n="profile.sessionText">El token de acceso vive solo en la memoria de esta pestaña. La cookie de refresco es HttpOnly y no puede leerla JavaScript.</p>
+                        <ul class="session-list">
+                            <li class="session-item">
+                                <strong data-i18n="profile.cookie">Cookie de refresco</strong>
+                                <span data-i18n="profile.cookieValue">HttpOnly · SameSite=Strict · ruta /api/auth</span>
+                            </li>
+                            <li class="session-item">
+                                <strong data-i18n="profile.token">Token de acceso</strong>
+                                <span data-i18n="profile.tokenValue">En memoria · caduca en 15 minutos</span>
+                            </li>
+                        </ul>
+                        <p class="form-text mt-3" data-i18n="profile.logoutHelp">También puedes cerrar sesión desde el menú superior.</p>
+                        <button class="btn btn-outline-secondary" type="button" data-action="logout" data-i18n="profile.logout">Cerrar sesión</button>
+                    </section>
+
+                    <section class="profile-card" aria-labelledby="language-title">
+                        <h2 id="language-title" data-i18n="profile.language">Idioma preferido</h2>
+                        <select class="form-select" id="profile-language">
+                            <option value="es">Español</option>
+                            <option value="en">English</option>
+                            <option value="de">Deutsch</option>
+                        </select>
+                        <p class="form-text mt-2" data-i18n="profile.languageHelp">El cambio de idioma se guarda en este navegador.</p>
+                    </section>
+
+                    <section class="profile-card" id="profile-admin-card" aria-labelledby="admin-link-title" hidden>
+                        <h2 id="admin-link-title" data-i18n="profile.admin">Administración</h2>
+                        <p data-i18n="profile.adminHelp">Gestiona cuentas, roles y sesiones desde el panel de administración.</p>
+                        <a class="btn btn-outline-primary" href="/admin.html" data-i18n="nav.admin">Administración</a>
+                    </section>
+
+                    <section class="profile-card" aria-labelledby="docs-title">                        <h2 id="docs-title" data-i18n="profile.docs">Documentación de la API</h2>
+                        <p data-i18n="profile.docsHelp">Swagger UI con todos los endpoints, esquemas y pruebas.</p>
+                        <a class="btn btn-outline-primary" href="/swagger-ui.html" target="_blank" rel="noopener noreferrer" data-i18n="index.statusDocs">Abrir Swagger UI</a>
+                    </section>
+
+                    <section class="profile-card" aria-labelledby="accessibility-title">
+                        <h2 id="accessibility-title" data-i18n="profile.accessibility">Accesibilidad</h2>
+                        <p class="mb-0" data-i18n="profile.accessibilityText">Interfaz navegable con teclado, textos alternativos, contraste AA y respeto por el movimiento reducido.</p>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <div id="toast-stack" class="toast-stack" aria-live="polite" aria-atomic="false"></div>
+
+    <noscript>
+        <div class="container py-4">
+            <div class="alert alert-warning">LibroLog necesita JavaScript para funcionar. / LibroLog needs JavaScript to work.</div>
+        </div>
+    </noscript>
+
+    <script type="module" src="/js/pages/profile.js"></script>
+</body>
+</html>

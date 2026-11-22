@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="librolog-api-base" content="">
+    <meta name="description" content="Panel de lectura de LibroLog." data-i18n-content="meta.dashboard">
+    <title>Panel · LibroLog</title>
+    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/theme.css">
+</head>
+<body data-page="dashboard" data-auth="required">
+    <a class="skip-link" href="#contenido" data-i18n="a11y.skip">Saltar al contenido</a>
+    <header id="site-header"></header>
+
+    <main id="contenido" tabindex="-1">
+        <div class="container">
+            <header class="page-intro">
+                <p class="eyebrow" data-i18n="dashboard.eyebrow">Resumen</p>
+                <h1 data-i18n="dashboard.title">Tu panel de lectura</h1>
+                <p class="lead" data-i18n="dashboard.subtitle">Un vistazo a tu biblioteca, tu actividad y tus metas.</p>
+            </header>
+
+            <div class="toolbar">
+                <div class="toolbar-field">
+                    <label class="form-label" for="dashboard-year" data-i18n="dashboard.yearLabel">Año analizado</label>
+                    <select class="form-select" id="dashboard-year"></select>
+                </div>
+                <div class="quick-actions">
+                    <a class="btn btn-outline-primary" href="/library.html" data-i18n="dashboard.newBook">Añadir un libro</a>
+                    <button class="btn btn-primary" type="button" id="download-pdf" data-i18n="dashboard.downloadPdf">Descargar informe PDF</button>
+                </div>
+            </div>
+
+            <div id="dashboard-alert" class="alert alert-danger" role="alert" hidden></div>
+
+            <div id="dashboard-loading" class="loading-block" aria-busy="true" aria-label="Cargando contenido">
+                <div class="skeleton loading-line w-35"></div>
+                <div class="skeleton loading-line w-75"></div>
+                <div class="skeleton loading-line w-50"></div>
+            </div>
+
+            <div id="dashboard-content" hidden>
+                <section aria-labelledby="stats-title" class="mb-4">
+                    <h2 id="stats-title" class="visually-hidden" data-i18n="dashboard.eyebrow">Resumen</h2>
+                    <div class="stat-grid" id="stat-grid"></div>
+                </section>
+
+                <section class="panel mb-4" aria-labelledby="monthly-title">
+                    <div class="section-heading">
+                        <div>
+                            <h2 id="monthly-title"></h2>
+                            <p data-i18n="dashboard.chart.lead">Páginas leídas y libros terminados por mes.</p>
+                        </div>
+                    </div>
+                    <div class="chart-wrap">
+                        <canvas id="monthly-chart" role="img"></canvas>
+                    </div>
+                    <p class="text-muted mt-2 mb-0" id="monthly-empty" hidden data-i18n="dashboard.chart.empty">Todavía no hay actividad registrada en este año.</p>
+                    <details class="data-details">
+                        <summary data-i18n="dashboard.chart.showData">Ver los datos en tabla</summary>
+                        <div class="table-scroll mt-2" id="monthly-table"></div>
+                    </details>
+                </section>
+
+                <div class="grid-two mb-4">
+                    <section class="panel" aria-labelledby="authors-title">
+                        <div class="section-heading">
+                            <h2 id="authors-title"></h2>
+                        </div>
+                        <div class="author-list" id="authors-list"></div>
+                    </section>
+
+                    <section class="panel" aria-labelledby="goals-title">
+                        <div class="section-heading">
+                            <h2 id="goals-title"></h2>
+                            <a class="btn btn-sm btn-outline-primary" href="/goals.html" data-i18n="dashboard.goals.manage">Gestionar metas</a>
+                        </div>
+                        <div class="stack" id="goals-list"></div>
+                    </section>
+                </div>
+
+                <section class="panel mb-4" aria-labelledby="genres-title">
+                    <div class="section-heading">
+                        <h2 id="genres-title"></h2>
+                    </div>
+                    <div class="author-list" id="genres-list"></div>
+                </section>
+
+                <div class="grid-two">
+                    <section class="panel" aria-labelledby="recent-title">
+                        <div class="section-heading">
+                            <h2 id="recent-title" data-i18n="dashboard.recent.title">Últimos libros añadidos</h2>
+                            <a class="btn btn-sm btn-outline-primary" href="/library.html" data-i18n="dashboard.recent.viewAll">Ver toda la biblioteca</a>
+                        </div>
+                        <div class="recent-list" id="recent-list"></div>
+                    </section>
+
+                    <section class="panel" aria-labelledby="ratings-title">
+                        <div class="section-heading">
+                            <h2 id="ratings-title" data-i18n="dashboard.ratings.title">Distribución de calificaciones</h2>
+                        </div>
+                        <div class="rating-list" id="ratings-list"></div>
+                        <p class="text-muted mt-2 mb-0" id="ratings-empty" hidden data-i18n="dashboard.ratings.empty">Aún no hay reseñas.</p>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <div id="toast-stack" class="toast-stack" aria-live="polite" aria-atomic="false"></div>
+
+    <noscript>
+        <div class="container py-4">
+            <div class="alert alert-warning">LibroLog necesita JavaScript para funcionar. / LibroLog needs JavaScript to work.</div>
+        </div>
+    </noscript>
+
+    <script src="/vendor/chartjs/chart.umd.min.js" defer></script>
+    <script type="module" src="/js/pages/dashboard.js"></script>
+</body>
+</html>

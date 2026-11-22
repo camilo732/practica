@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="librolog-api-base" content="">
+    <meta name="description" content="Tus reseñas de libros en LibroLog." data-i18n-content="meta.reviews">
+    <title>Reseñas · LibroLog</title>
+    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/theme.css">
+</head>
+<body data-page="reviews" data-auth="required">
+    <a class="skip-link" href="#contenido" data-i18n="a11y.skip">Saltar al contenido</a>
+    <header id="site-header"></header>
+
+    <main id="contenido" tabindex="-1">
+        <div class="container">
+            <header class="page-intro">
+                <p class="eyebrow" data-i18n="reviews.eyebrow">Tus lecturas</p>
+                <h1 data-i18n="reviews.title">Mis reseñas</h1>
+                <p class="lead" data-i18n="reviews.subtitle">Valora los libros que has terminado y conserva tus impresiones.</p>
+            </header>
+
+            <div class="toolbar">
+                <p class="text-muted mb-0" id="reviews-count"></p>
+                <button class="btn btn-primary" type="button" id="open-review" data-i18n="reviews.new">Nueva reseña</button>
+            </div>
+
+            <div id="reviews-alert" class="alert alert-danger" role="alert" hidden></div>
+
+            <section class="panel mb-4" aria-labelledby="ratings-title">
+                <div class="section-heading">
+                    <div>
+                        <h2 id="ratings-title" data-i18n="reviews.chart.title">Distribución de calificaciones</h2>
+                        <p data-i18n="reviews.chart.lead">Cuántas reseñas tienes con cada puntuación.</p>
+                    </div>
+                </div>
+                <div class="chart-wrap chart-wrap-compact">
+                    <canvas id="ratings-chart" role="img"></canvas>
+                </div>
+                <p class="text-muted mt-2 mb-0" id="ratings-empty" hidden data-i18n="reviews.chart.empty">Aún no hay calificaciones que mostrar.</p>
+                <details class="data-details">
+                    <summary data-i18n="reviews.chart.showData">Ver los datos en tabla</summary>
+                    <div class="table-scroll mt-2" id="ratings-table"></div>
+                </details>
+            </section>
+
+            <div id="reviews-loading" class="loading-block" aria-busy="true" aria-label="Cargando contenido">
+                <div class="skeleton loading-line w-35"></div>
+                <div class="skeleton loading-line w-75"></div>
+                <div class="skeleton loading-line w-50"></div>
+            </div>
+
+            <div id="reviews-list" class="review-list"></div>
+        </div>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <div id="toast-stack" class="toast-stack" aria-live="polite" aria-atomic="false"></div>
+
+    <dialog id="review-dialog" class="confirm-dialog review-dialog" aria-labelledby="review-dialog-title">
+        <div class="confirm-dialog-body">
+            <h2 id="review-dialog-title" class="h5" data-i18n="reviews.form.titleNew">Escribir una reseña</h2>
+
+            <div id="review-no-books" class="alert alert-warning" hidden>
+                <p class="mb-2" data-i18n="reviews.form.noBooks">No tienes libros terminados. Marca un libro como terminado para poder reseñarlo.</p>
+                <a class="btn btn-sm btn-outline-primary" href="/library.html" data-i18n="nav.library">Biblioteca</a>
+            </div>
+
+            <form id="review-form" novalidate>
+                <div class="mb-3">
+                    <label class="form-label" for="review-book" data-i18n="reviews.form.book">Libro</label>
+                    <select class="form-select" id="review-book" name="userBookId" required aria-describedby="review-book-help">
+                        <option value="" data-i18n="reviews.selectBook">Selecciona un libro</option>
+                    </select>
+                    <p class="form-text" id="review-book-help" data-i18n="reviews.form.bookHelp">Solo aparecen libros terminados.</p>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label class="form-label" for="review-rating" data-i18n="reviews.form.rating">Calificación general</label>
+                        <select class="form-select" id="review-rating" name="rating" required>
+                            <option value="" data-i18n="reviews.form.notRated">Sin valorar</option>
+                            <option value="5">5 ★</option>
+                            <option value="4">4 ★</option>
+                            <option value="3">3 ★</option>
+                            <option value="2">2 ★</option>
+                            <option value="1">1 ★</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label" for="review-pace" data-i18n="reviews.form.pace">Ritmo</label>
+                        <select class="form-select" id="review-pace" name="paceRating">
+                            <option value="" data-i18n="reviews.form.notRated">Sin valorar</option>
+                            <option value="5">5 ★</option>
+                            <option value="4">4 ★</option>
+                            <option value="3">3 ★</option>
+                            <option value="2">2 ★</option>
+                            <option value="1">1 ★</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label" for="review-characters" data-i18n="reviews.form.characters">Personajes</label>
+                        <select class="form-select" id="review-characters" name="charactersRating">
+                            <option value="" data-i18n="reviews.form.notRated">Sin valorar</option>
+                            <option value="5">5 ★</option>
+                            <option value="4">4 ★</option>
+                            <option value="3">3 ★</option>
+                            <option value="2">2 ★</option>
+                            <option value="1">1 ★</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label" for="review-usefulness" data-i18n="reviews.form.usefulness">Utilidad</label>
+                        <select class="form-select" id="review-usefulness" name="usefulnessRating">
+                            <option value="" data-i18n="reviews.form.notRated">Sin valorar</option>
+                            <option value="5">5 ★</option>
+                            <option value="4">4 ★</option>
+                            <option value="3">3 ★</option>
+                            <option value="2">2 ★</option>
+                            <option value="1">1 ★</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <label class="form-label" for="review-content" data-i18n="reviews.form.content">Comentario</label>
+                    <textarea class="form-control" id="review-content" name="content" rows="4" maxlength="4000"
+                              placeholder="¿Qué te ha parecido? (opcional)"
+                              data-i18n-placeholder="reviews.form.contentPlaceholder"></textarea>
+                    <div class="d-flex justify-content-end">
+                        <span class="counter" id="review-counter"></span>
+                    </div>
+                </div>
+
+                <div class="form-error-summary" data-form-error role="alert" hidden></div>
+
+                <div class="confirm-dialog-actions px-0 pb-0">
+                    <button class="btn btn-outline-secondary" type="button" data-close-dialog data-i18n="common.cancel">Cancelar</button>
+                    <button class="btn btn-primary" type="submit" id="review-submit" data-i18n="reviews.form.submitNew">Publicar reseña</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <noscript>
+        <div class="container py-4">
+            <div class="alert alert-warning">LibroLog necesita JavaScript para funcionar. / LibroLog needs JavaScript to work.</div>
+        </div>
+    </noscript>
+
+    <script src="/vendor/chartjs/chart.umd.min.js" defer></script>
+    <script type="module" src="/js/pages/reviews.js"></script>
+</body>
+</html>

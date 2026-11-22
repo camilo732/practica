@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="librolog-api-base" content="">
+    <meta name="description" content="Importa y exporta tu biblioteca de LibroLog." data-i18n-content="meta.data">
+    <title>Datos · LibroLog</title>
+    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/theme.css">
+</head>
+<body data-page="data" data-auth="required">
+    <a class="skip-link" href="#contenido" data-i18n="a11y.skip">Saltar al contenido</a>
+    <header id="site-header"></header>
+
+    <main id="contenido" tabindex="-1">
+        <div class="container">
+            <header class="page-intro">
+                <p class="eyebrow" data-i18n="data.eyebrow">Importar y exportar</p>
+                <h1 data-i18n="data.title">Tus datos, en tus manos</h1>
+                <p class="lead" data-i18n="data.subtitle">Descarga una copia de tu biblioteca o importa un CSV de LibroLog o Goodreads.</p>
+            </header>
+
+            <div id="data-alert" class="alert alert-danger" role="alert" hidden></div>
+
+            <section class="panel mb-4" aria-labelledby="export-title">
+                <div class="section-heading">
+                    <div>
+                        <h2 id="export-title" data-i18n="data.export.title">Exportar</h2>
+                        <p data-i18n="data.export.lead">Descarga tu biblioteca para conservarla o abrirla en una hoja de cálculo.</p>
+                    </div>
+                </div>
+
+                <div class="export-grid">
+                    <article class="export-card">
+                        <h3 data-i18n="data.export.csv">Exportar CSV</h3>
+                        <p data-i18n="data.export.csvHelp">Compatible con hojas de cálculo y con la importación de LibroLog.</p>
+                        <button class="btn btn-primary" type="button" id="export-csv" data-i18n="data.export.csv">Exportar CSV</button>
+                    </article>
+                    <article class="export-card">
+                        <h3 data-i18n="data.export.json">Exportar JSON</h3>
+                        <p data-i18n="data.export.jsonHelp">Copia completa con libros, reseñas y metas.</p>
+                        <button class="btn btn-primary" type="button" id="export-json" data-i18n="data.export.json">Exportar JSON</button>
+                    </article>
+                    <article class="export-card">
+                        <h3 data-i18n="data.export.template">Descargar plantilla CSV</h3>
+                        <p data-i18n="data.export.templateHelp">Cabecera vacía con una fila de ejemplo.</p>
+                        <button class="btn btn-outline-primary" type="button" id="download-template" data-i18n="data.export.template">Descargar plantilla CSV</button>
+                    </article>
+                </div>
+            </section>
+
+            <section class="panel mb-4" aria-labelledby="import-title">
+                <div class="section-heading">
+                    <div>
+                        <h2 id="import-title" data-i18n="data.import.title">Importar CSV</h2>
+                        <p data-i18n="data.import.lead">Arrastra el archivo o selecciónalo. Máximo 10 MB y 3.000 filas.</p>
+                    </div>
+                </div>
+
+                <div id="dropzone" class="dropzone" role="button" tabindex="0" aria-describedby="dropzone-help">
+                    <span class="dropzone-icon" aria-hidden="true">⇧</span>
+                    <p class="dropzone-title" data-i18n="data.import.drop">Arrastra tu CSV aquí</p>
+                    <p class="dropzone-help" id="dropzone-help">
+                        <span data-i18n="data.import.or">o</span>
+                        <span class="text-decoration-underline fw-semibold" data-i18n="data.import.browse">Seleccionar archivo</span>
+                    </p>
+                    <input type="file" id="csv-file" name="file" accept=".csv,text/csv" class="visually-hidden">
+                </div>
+
+                <div id="selected-file" class="dropzone-file" hidden>
+                    <div>
+                        <div class="dropzone-file-name" id="selected-file-name"></div>
+                        <div class="dropzone-file-meta" id="selected-file-meta"></div>
+                    </div>
+                    <button class="btn btn-sm btn-outline-secondary" type="button" id="remove-file" data-i18n="data.import.remove">Quitar archivo</button>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2 align-items-center mt-3">
+                    <button class="btn btn-primary" type="button" id="import-submit" disabled data-i18n="data.import.upload">Importar biblioteca</button>
+                    <span class="text-muted small" data-i18n="data.import.note">Cada fila se procesa por separado: un error no detiene el resto.</span>
+                </div>
+
+                <div class="mt-3">
+                    <p class="mb-1" data-i18n="data.import.formats">Formatos admitidos: CSV de LibroLog y CSV de Goodreads.</p>
+                    <p class="mb-0 text-muted small" data-i18n="data.import.columns">Cabeceras de LibroLog: title, author, status, currentPage, totalPages, startedAt, finishedAt, isbn, publishYear, rating.</p>
+                </div>
+            </section>
+
+            <section id="import-report" class="panel import-report" aria-labelledby="report-title" hidden>
+                <div class="section-heading">
+                    <h2 id="report-title" data-i18n="data.import.report.title">Resultado de la importación</h2>
+                    <a class="btn btn-sm btn-outline-primary" href="/library.html" data-i18n="data.import.report.viewLibrary">Ver mi biblioteca</a>
+                </div>
+                <div id="report-content"></div>
+            </section>
+        </div>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <div id="toast-stack" class="toast-stack" aria-live="polite" aria-atomic="false"></div>
+
+    <noscript>
+        <div class="container py-4">
+            <div class="alert alert-warning">LibroLog necesita JavaScript para funcionar. / LibroLog needs JavaScript to work.</div>
+        </div>
+    </noscript>
+
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script type="module" src="/js/pages/data.js"></script>
+</body>
+</html>

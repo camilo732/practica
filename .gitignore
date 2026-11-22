@@ -1,0 +1,28 @@
+# Maven
+backend/target/
+
+# Entorno y secretos
+.env
+*.env.local
+*.p12
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# Sistema
+Thumbs.db
+.DS_Store
+*.log
+
+# frontend/vendor/ SÍ se sube: Bootstrap, Chart.js y jQuery se sirven desde ahí
+# (la CSP no permite CDN). Sin esa carpeta la web clonada no tendría estilos.
+
+# Copias locales y volcados de base de datos
+*.sql.bak
+*.dump
+backup/

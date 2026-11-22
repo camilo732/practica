@@ -1,0 +1,35 @@
+# ---------------------------------------------------------------------------
+# PostgreSQL alternativo para LibroLog.
+#
+# La base principal del proyecto es la que creaste en pgAdmin:
+#   jdbc:postgresql://localhost:5432/librolog_app
+#
+# Este contenedor sirve para levantar una base desechable en otro equipo o para
+# probar la aplicación sin instalar PostgreSQL. Usa el puerto 5433 para no
+# chocar con el PostgreSQL local del puerto 5432.
+#
+# Uso:
+#   docker compose up -d db
+#   (luego cambiar DB_URL en .env a jdbc:postgresql://localhost:5433/librolog_app)
+# ---------------------------------------------------------------------------
+services:
+  db:
+    image: postgres:18-alpine
+    container_name: librolog-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-librolog_app}
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT:-5433}:5432"
+    volumes:
+      - librolog_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres} -d ${POSTGRES_DB:-librolog_app}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  librolog_pgdata:

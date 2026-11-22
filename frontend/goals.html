@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="librolog-api-base" content="">
+    <meta name="description" content="Tus metas de lectura en LibroLog." data-i18n-content="meta.goals">
+    <title>Metas · LibroLog</title>
+    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/theme.css">
+</head>
+<body data-page="goals" data-auth="required">
+    <a class="skip-link" href="#contenido" data-i18n="a11y.skip">Saltar al contenido</a>
+    <header id="site-header"></header>
+
+    <main id="contenido" tabindex="-1">
+        <div class="container">
+            <header class="page-intro">
+                <p class="eyebrow" data-i18n="goals.eyebrow">Planificación</p>
+                <h1 data-i18n="goals.title">Metas de lectura</h1>
+                <p class="lead" data-i18n="goals.subtitle">Define objetivos anuales o mensuales y sigue tu ritmo real.</p>
+            </header>
+
+            <div class="toolbar">
+                <div class="toolbar-field">
+                    <label class="form-label" for="goals-year" data-i18n="goals.year">Año</label>
+                    <select class="form-select" id="goals-year"></select>
+                </div>
+                <button class="btn btn-primary" type="button" id="open-goal" data-i18n="goals.new">Nueva meta</button>
+            </div>
+
+            <div id="goals-alert" class="alert alert-danger" role="alert" hidden></div>
+            <p class="text-muted" id="goals-count"></p>
+
+            <section class="panel mb-4" id="goals-chart-panel" aria-labelledby="goals-chart-title" hidden>
+                <div class="section-heading">
+                    <div>
+                        <h2 id="goals-chart-title" data-i18n="goals.chart.title">Avance frente al ritmo esperado</h2>
+                        <p data-i18n="goals.chart.lead">Porcentaje conseguido y porcentaje que deberías llevar a estas alturas.</p>
+                    </div>
+                </div>
+                <div class="chart-wrap chart-wrap-compact">
+                    <canvas id="goals-chart" role="img"></canvas>
+                </div>
+                <details class="data-details">
+                    <summary data-i18n="goals.chart.showData">Ver los datos en tabla</summary>
+                    <div class="table-scroll mt-2" id="goals-table"></div>
+                </details>
+            </section>
+
+            <div id="goals-loading" class="loading-block" aria-busy="true" aria-label="Cargando contenido">
+                <div class="skeleton loading-line w-35"></div>
+                <div class="skeleton loading-line w-75"></div>
+                <div class="skeleton loading-line w-50"></div>
+            </div>
+
+            <div id="goals-list" class="goal-list"></div>
+        </div>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <div id="toast-stack" class="toast-stack" aria-live="polite" aria-atomic="false"></div>
+
+    <dialog id="goal-dialog" class="confirm-dialog" aria-labelledby="goal-dialog-title">
+        <div class="confirm-dialog-body">
+            <h2 id="goal-dialog-title" class="h5" data-i18n="goals.form.titleNew">Crear una meta</h2>
+            <p class="form-text" id="goal-period-note" hidden data-i18n="goals.form.periodLocked">El periodo no se puede cambiar al editar.</p>
+
+            <form id="goal-form" novalidate>
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label class="form-label" for="goal-period" data-i18n="goals.form.period">Periodicidad</label>
+                        <select class="form-select" id="goal-period" name="period">
+                            <option value="ANNUAL" data-i18n="goals.form.annual">Anual</option>
+                            <option value="MONTHLY" data-i18n="goals.form.monthly">Mensual</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label" for="goal-year" data-i18n="goals.form.year">Año</label>
+                        <input class="form-control" id="goal-year" name="year" type="number"
+                               min="2000" max="2100" step="1" inputmode="numeric" required>
+                    </div>
+                    <div class="col-sm-6" id="goal-month-group">
+                        <label class="form-label" for="goal-month" data-i18n="goals.form.month">Mes</label>
+                        <select class="form-select" id="goal-month" name="month"></select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label" for="goal-targetBooks" data-i18n="goals.form.targetBooks">Libros objetivo</label>
+                        <input class="form-control" id="goal-targetBooks" name="targetBooks" type="number"
+                               min="1" step="1" inputmode="numeric" required>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label" for="goal-targetPages" data-i18n="goals.form.targetPages">Páginas objetivo</label>
+                        <input class="form-control" id="goal-targetPages" name="targetPages" type="number"
+                               min="1" step="1" inputmode="numeric" required>
+                    </div>
+                </div>
+
+                <div class="form-error-summary mt-3" data-form-error role="alert" hidden></div>
+
+                <div class="confirm-dialog-actions px-0 pb-0">
+                    <button class="btn btn-outline-secondary" type="button" data-close-dialog data-i18n="common.cancel">Cancelar</button>
+                    <button class="btn btn-primary" type="submit" id="goal-submit" data-i18n="goals.form.submitNew">Crear meta</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <noscript>
+        <div class="container py-4">
+            <div class="alert alert-warning">LibroLog necesita JavaScript para funcionar. / LibroLog needs JavaScript to work.</div>
+        </div>
+    </noscript>
+
+    <script src="/vendor/chartjs/chart.umd.min.js" defer></script>
+    <script type="module" src="/js/pages/goals.js"></script>
+</body>
+</html>

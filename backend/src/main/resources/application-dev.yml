@@ -1,0 +1,40 @@
+# ---------------------------------------------------------------------------
+# Perfil "dev": HTTPS local con certificado PKCS12 autofirmado.
+#
+# Uso:
+#   1. Generar el certificado (una sola vez):
+#        powershell -ExecutionPolicy Bypass -File ..\scripts\generar-keystore-dev.ps1
+#      (Opcional, para que el navegador no avise):
+#        powershell -ExecutionPolicy Bypass -File ..\scripts\confiar-certificado-dev.ps1
+#   2. Arrancar con el perfil activo:
+#        mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=dev
+#      En IntelliJ: Run > Edit Configurations > Active profiles: dev
+#   3. Abrir https://localhost:8443/ y aceptar el aviso del certificado
+#      si todavía no se confió.
+#
+# El archivo keystore-dev.p12 está en .gitignore: es un certificado local de
+# desarrollo, no un secreto de producción.
+#
+# Google OAuth2: si se usa este perfil, en Google Cloud Console hay que tener
+# también el URI de redirección https://localhost:8443/login/oauth2/code/google
+# (el de http://localhost:8080/login/oauth2/code/google sigue sirviendo para el
+# arranque sin perfil).
+# ---------------------------------------------------------------------------
+server:
+  port: 8443
+  ssl:
+    enabled: true
+    key-store: ${APP_SSL_KEYSTORE:file:keystore-dev.p12}
+    key-store-password: ${APP_SSL_PASSWORD:changeit}
+    key-store-type: PKCS12
+    key-alias: librolog
+
+app:
+  security:
+    require-https: true
+    # HSTS desactivado: fijar localhost a HTTPS durante un año rompería el
+    # arranque normal en http://localhost:8080 y otros servicios locales.
+    hsts-enabled: false
+  frontend-url: https://localhost:8443
+  cors:
+    allowed-origins: https://localhost:8443

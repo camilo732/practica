@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="librolog-api-base" content="">
+    <meta name="description" content="Tu biblioteca personal en LibroLog." data-i18n-content="meta.library">
+    <title>Biblioteca · LibroLog</title>
+    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/theme.css">
+</head>
+<body data-page="library" data-auth="required">
+    <a class="skip-link" href="#contenido" data-i18n="a11y.skip">Saltar al contenido</a>
+    <header id="site-header"></header>
+
+    <main id="contenido" tabindex="-1">
+        <div class="container">
+            <header class="page-intro">
+                <p class="eyebrow" data-i18n="library.eyebrow">Colección personal</p>
+                <h1 data-i18n="library.title">Mi biblioteca</h1>
+                <p class="lead" data-i18n="library.subtitle">Filtra, actualiza tu progreso y gestiona tus lecturas.</p>
+            </header>
+
+            <div class="toolbar">
+                <div class="toolbar-field">
+                    <label class="form-label" for="library-status" data-i18n="library.filterLabel">Filtrar por estado</label>
+                    <select class="form-select" id="library-status">
+                        <option value="" data-i18n="common.all">Todos</option>
+                        <option value="WANT_TO_READ" data-i18n="status.WANT_TO_READ">Pendiente</option>
+                        <option value="READING" data-i18n="status.READING">En lectura</option>
+                        <option value="READ" data-i18n="status.READ">Terminado</option>
+                    </select>
+                </div>
+                <div class="quick-actions">
+                    <a class="btn btn-outline-primary" href="/catalog.html" data-i18n="library.addCatalog">Buscar en el catálogo</a>
+                    <button class="btn btn-primary" type="button" id="open-manual" data-i18n="library.addManual">Alta manual</button>
+                </div>
+            </div>
+
+            <div id="library-alert" class="alert alert-danger" role="alert" hidden></div>
+            <p class="text-muted" id="library-count"></p>
+
+            <div id="library-loading" class="loading-block" aria-busy="true" aria-label="Cargando contenido">
+                <div class="skeleton loading-line w-35"></div>
+                <div class="skeleton loading-line w-75"></div>
+                <div class="skeleton loading-line w-50"></div>
+            </div>
+
+            <div id="library-content"></div>
+        </div>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <div id="toast-stack" class="toast-stack" aria-live="polite" aria-atomic="false"></div>
+
+    <dialog id="progress-dialog" class="confirm-dialog" aria-labelledby="progress-title">
+        <div class="confirm-dialog-body">
+            <h2 id="progress-title" class="h5" data-i18n="library.progress.title">Actualizar progreso</h2>
+            <p class="text-muted" id="progress-book"></p>
+            <form id="progress-form" novalidate>
+                <label class="form-label" for="progress-currentPage" data-i18n="library.progress.current">Página actual</label>
+                <input class="form-control" id="progress-currentPage" name="currentPage" type="number"
+                       min="0" step="1" inputmode="numeric" required>
+                <p class="form-text" id="progress-total"></p>
+                <p class="form-text" data-i18n="library.progress.help">Introduce la página en la que estás. Si llegas al final, el libro se marcará como terminado.</p>
+                <div class="form-error-summary mt-2" data-form-error role="alert" hidden></div>
+                <div class="confirm-dialog-actions px-0 pb-0">
+                    <button class="btn btn-outline-secondary" type="button" data-close-dialog data-i18n="common.cancel">Cancelar</button>
+                    <button class="btn btn-primary" type="submit" id="progress-submit" data-i18n="library.progress.submit">Guardar progreso</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="edit-dialog" class="confirm-dialog" aria-labelledby="edit-title">
+        <div class="confirm-dialog-body">
+            <h2 id="edit-title" class="h5" data-i18n="library.edit.title">Editar libro</h2>
+            <p class="text-muted" id="edit-book"></p>
+            <form id="edit-form" novalidate>
+                <div class="mb-3">
+                    <label class="form-label" for="edit-status" data-i18n="library.edit.status">Estado</label>
+                    <select class="form-select" id="edit-status" name="status">
+                        <option value="WANT_TO_READ" data-i18n="status.WANT_TO_READ">Pendiente</option>
+                        <option value="READING" data-i18n="status.READING">En lectura</option>
+                        <option value="READ" data-i18n="status.READ">Terminado</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="edit-totalPages" data-i18n="library.edit.totalPages">Total de páginas</label>
+                    <input class="form-control" id="edit-totalPages" name="totalPages" type="number" min="1" step="1" inputmode="numeric">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="edit-startedAt" data-i18n="library.edit.startedAt">Fecha de inicio</label>
+                    <input class="form-control" id="edit-startedAt" name="startedAt" type="date">
+                </div>
+                <div class="form-error-summary" data-form-error role="alert" hidden></div>
+                <div class="confirm-dialog-actions px-0 pb-0">
+                    <button class="btn btn-outline-secondary" type="button" data-close-dialog data-i18n="common.cancel">Cancelar</button>
+                    <button class="btn btn-primary" type="submit" id="edit-submit" data-i18n="library.edit.submit">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="manual-dialog" class="confirm-dialog" aria-labelledby="manual-title">
+        <div class="confirm-dialog-body">
+            <h2 id="manual-title" class="h5" data-i18n="library.manual.title">Añadir un libro manualmente</h2>
+            <form id="manual-form" novalidate>
+                <div class="mb-3">
+                    <label class="form-label" for="manual-title-field">
+                        <span data-i18n="library.manual.titleLabel">Título</span>
+                        <span class="required-mark" aria-hidden="true">*</span>
+                    </label>
+                    <input class="form-control" id="manual-title-field" name="title" type="text" maxlength="500" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="manual-author" data-i18n="library.manual.author">Autoría</label>
+                    <input class="form-control" id="manual-author" name="author" type="text" maxlength="500">
+                </div>
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label class="form-label" for="manual-totalPages" data-i18n="library.manual.totalPages">Total de páginas</label>
+                        <input class="form-control" id="manual-totalPages" name="totalPages" type="number" min="1" step="1" inputmode="numeric">
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label" for="manual-publishYear" data-i18n="library.manual.publishYear">Año de publicación</label>
+                        <input class="form-control" id="manual-publishYear" name="publishYear" type="number" min="1000" max="2100" step="1" inputmode="numeric">
+                    </div>
+                </div>
+                <div class="form-error-summary mt-3" data-form-error role="alert" hidden></div>
+                <div class="confirm-dialog-actions px-0 pb-0">
+                    <button class="btn btn-outline-secondary" type="button" data-close-dialog data-i18n="common.cancel">Cancelar</button>
+                    <button class="btn btn-primary" type="submit" id="manual-submit" data-i18n="library.manual.submit">Añadir a mi biblioteca</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <noscript>
+        <div class="container py-4">
+            <div class="alert alert-warning">LibroLog necesita JavaScript para funcionar. / LibroLog needs JavaScript to work.</div>
+        </div>
+    </noscript>
+
+    <script type="module" src="/js/pages/library.js"></script>
+</body>
+</html>

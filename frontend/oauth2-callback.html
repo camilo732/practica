@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="librolog-api-base" content="">
+    <meta name="description" content="Completa el acceso a LibroLog.">
+    <title>Acceso · LibroLog</title>
+    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/theme.css">
+</head>
+<body data-page="oauth" class="oauth-page">
+    <main id="contenido" tabindex="-1">
+        <div class="container">
+            <section class="oauth-card" id="oauth-card" aria-labelledby="oauth-title" aria-busy="true">
+                <img src="/assets/logo.svg" alt="" width="54" height="54" class="oauth-logo">
+                <h1 id="oauth-title">LibroLog</h1>
+                <p class="oauth-status" id="oauth-status" role="status" aria-live="polite"
+                   data-i18n="oauth.loading">Completando el inicio de sesión…</p>
+                <div class="spinner-border text-primary" id="oauth-spinner" role="status" aria-hidden="true"></div>
+
+                <div class="oauth-actions" id="oauth-actions" hidden>
+                    <p class="form-error-summary" role="alert" data-i18n="oauth.error">
+                        No se pudo completar el inicio de sesión con Google. Vuelve a intentarlo.
+                    </p>
+                    <a class="btn btn-primary" href="/login.html" data-i18n="oauth.retry">Volver al acceso</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <noscript>
+        <div class="container py-4">
+            <div class="alert alert-warning">LibroLog necesita JavaScript para funcionar. / LibroLog needs JavaScript to work.</div>
+        </div>
+    </noscript>
+
+    <script type="module" src="/js/pages/oauth2-callback.js"></script>
+</body>
+</html>

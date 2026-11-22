@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="librolog-api-base" content="">
+    <meta name="description" content="Busca libros en Open Library desde LibroLog." data-i18n-content="meta.catalog">
+    <title>Catálogo · LibroLog</title>
+    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/theme.css">
+</head>
+<body data-page="catalog" data-auth="required">
+    <a class="skip-link" href="#contenido" data-i18n="a11y.skip">Saltar al contenido</a>
+    <header id="site-header"></header>
+
+    <main id="contenido" tabindex="-1">
+        <div class="container">
+            <header class="page-intro">
+                <p class="eyebrow" data-i18n="catalog.eyebrow">Open Library</p>
+                <h1 data-i18n="catalog.title">Buscar libros</h1>
+                <p class="lead" data-i18n="catalog.subtitle">Busca por título, autoría o ISBN. Los resultados se guardan en la caché local.</p>
+            </header>
+
+            <section class="panel mb-4" aria-labelledby="catalog-search-title">
+                <h2 id="catalog-search-title" class="visually-hidden" data-i18n="catalog.title">Buscar libros</h2>
+                <form id="catalog-form" class="catalog-search" novalidate>
+                    <div>
+                        <label class="form-label" for="catalog-query" data-i18n="catalog.label">Título, autoría o ISBN</label>
+                        <input class="form-control" id="catalog-query" name="q" type="search"
+                               minlength="2" maxlength="200" autocomplete="off" required
+                               placeholder="Por ejemplo: cien años de soledad"
+                               data-i18n-placeholder="catalog.placeholder"
+                               aria-describedby="catalog-hint">
+                        <p class="catalog-note" id="catalog-hint" data-i18n="catalog.hint">Escribe al menos 2 caracteres.</p>
+                    </div>
+                    <div>
+                        <label class="form-label" for="catalog-limit" data-i18n="catalog.limit">Resultados</label>
+                        <select class="form-select" id="catalog-limit" name="limit">
+                            <option value="10">10</option>
+                            <option value="20" selected>20</option>
+                            <option value="40">40</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" type="submit" id="catalog-submit" data-i18n="catalog.search">Buscar</button>
+                </form>
+                <p class="catalog-note" data-i18n="catalog.backendNote">La búsqueda usa Open Library y la caché de LibroLog.</p>
+            </section>
+
+            <div id="catalog-alert" class="alert alert-danger" role="alert" hidden></div>
+            <div id="catalog-notice" class="alert alert-warning" role="status" hidden></div>
+            <p class="text-muted" id="catalog-summary"></p>
+
+            <div id="catalog-loading" class="loading-block" aria-busy="true" aria-label="Cargando contenido" hidden>
+                <div class="skeleton loading-line w-35"></div>
+                <div class="skeleton loading-line w-75"></div>
+                <div class="skeleton loading-line w-50"></div>
+            </div>
+
+            <div id="catalog-results" class="grid-cards"></div>
+
+            <p class="mt-4 mb-0">
+                <button class="btn btn-link p-0" type="button" id="open-manual" data-i18n="catalog.manual">¿No encuentras el libro? Alta manual</button>
+            </p>
+        </div>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <div id="toast-stack" class="toast-stack" aria-live="polite" aria-atomic="false"></div>
+
+    <dialog id="manual-dialog" class="confirm-dialog" aria-labelledby="manual-title">
+        <div class="confirm-dialog-body">
+            <h2 id="manual-title" class="h5" data-i18n="library.manual.title">Añadir un libro manualmente</h2>
+            <form id="manual-form" novalidate>
+                <div class="mb-3">
+                    <label class="form-label" for="manual-title-field">
+                        <span data-i18n="library.manual.titleLabel">Título</span>
+                        <span class="required-mark" aria-hidden="true">*</span>
+                    </label>
+                    <input class="form-control" id="manual-title-field" name="title" type="text" maxlength="500" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="manual-author" data-i18n="library.manual.author">Autoría</label>
+                    <input class="form-control" id="manual-author" name="author" type="text" maxlength="500">
+                </div>
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label class="form-label" for="manual-totalPages" data-i18n="library.manual.totalPages">Total de páginas</label>
+                        <input class="form-control" id="manual-totalPages" name="totalPages" type="number" min="1" step="1" inputmode="numeric">
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label" for="manual-publishYear" data-i18n="library.manual.publishYear">Año de publicación</label>
+                        <input class="form-control" id="manual-publishYear" name="publishYear" type="number" min="1000" max="2100" step="1" inputmode="numeric">
+                    </div>
+                </div>
+                <div class="form-error-summary mt-3" data-form-error role="alert" hidden></div>
+                <div class="confirm-dialog-actions px-0 pb-0">
+                    <button class="btn btn-outline-secondary" type="button" data-close-dialog data-i18n="common.cancel">Cancelar</button>
+                    <button class="btn btn-primary" type="submit" id="manual-submit" data-i18n="library.manual.submit">Añadir a mi biblioteca</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <noscript>
+        <div class="container py-4">
+            <div class="alert alert-warning">LibroLog necesita JavaScript para funcionar. / LibroLog needs JavaScript to work.</div>
+        </div>
+    </noscript>
+
+    <script type="module" src="/js/pages/catalog.js"></script>
+</body>
+</html>
